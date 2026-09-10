@@ -59,6 +59,40 @@ const norm = (s: string) =>
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
 
+/** Terça em que a temporada abre. A grade de semanas do calendário parte daqui. */
+export const SEASON_START = "2026-09-15";
+
+export function addDays(iso: string, n: number): string {
+  const dt = new Date(`${iso}T12:00:00Z`);
+  dt.setUTCDate(dt.getUTCDate() + n);
+  return dt.toISOString().slice(0, 10);
+}
+
+/**
+ * Grade real da temporada: passos de 7 dias a partir de SEASON_START.
+ *
+ * Não dá pra usar `weekStarts` do JSON — ele lista toda data de largada
+ * distinta, e as séries que não correm na terça (NASCAR na quarta, endurance
+ * no sábado) viram semanas fantasma com duas ou três séries cada.
+ */
+export function seasonWeekStarts(series: Series[]): string[] {
+  let last = SEASON_START;
+  for (const s of series)
+    for (const w of s.weeks) if (w.start > last) last = w.start;
+  const out: string[] = [];
+  for (let w = SEASON_START; w <= last; w = addDays(w, 7)) out.push(w);
+  return out;
+}
+
+/**
+ * Corrida da série dentro da semana que abre em `weekStart` — janela de 7
+ * dias, não casamento exato de data, para pegar quem larga fora da terça.
+ */
+export function weekOf(s: Series, weekStart: string): Week | undefined {
+  const end = addDays(weekStart, 7);
+  return s.weeks.find((w) => w.start >= weekStart && w.start < end);
+}
+
 /** Minutos "efetivos" de uma semana. Provas por volta viram null. */
 export function weekMinutes(w: Week): number | null {
   return w.duration.minutes;
@@ -95,7 +129,7 @@ export function filterSeries(
       !f.durationTypes.some((t) => s.durationTypes.includes(t))
     )
       return false;
-    if (f.week && !s.weeks.some((w) => w.start === f.week)) return false;
+    if (f.week && !weekOf(s, f.week)) return false;
 
     if (f.minMinutes !== null || f.maxMinutes !== null) {
       const mins = s.weeks
@@ -194,6 +228,13 @@ export const CATEGORY_LABEL: Record<string, string> = {
 export function fmtDate(iso: string): string {
   const [y, m, d] = iso.split("-");
   return `${d}/${m}/${y.slice(2)}`;
+}
+
+/** "sáb 19/09" — usado quando a corrida não larga na terça de abertura. */
+export function fmtDayShort(iso: string): string {
+  const dt = new Date(`${iso}T12:00:00Z`);
+  const wd = ["dom", "seg", "ter", "qua", "qui", "sex", "sáb"][dt.getUTCDay()];
+  return `${wd} ${iso.slice(8)}/${iso.slice(5, 7)}`;
 }
 
 export function fmtDateLong(iso: string): string {

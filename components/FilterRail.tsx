@@ -8,6 +8,7 @@ import {
   EMPTY_FILTERS,
   countActiveFilters,
   fmtDate,
+  seasonWeekStarts,
   type Filters,
 } from "@/lib/filters";
 import type { DurationType, Schedule } from "@/lib/types";
@@ -48,10 +49,7 @@ export function FilterRail({
 
   const active = countActiveFilters(filters);
 
-  const weeks = useMemo(
-    () => data.weekStarts.filter((w) => w >= "2026-01-01"),
-    [data.weekStarts]
-  );
+  const weeks = useMemo(() => seasonWeekStarts(data.series), [data.series]);
 
   return (
     <aside className="scroll-thin w-full shrink-0 space-y-5 border-line px-4 py-4 lg:sticky lg:top-14 lg:h-[calc(100vh-3.5rem)] lg:w-[268px] lg:overflow-y-auto lg:border-r">
@@ -159,9 +157,9 @@ export function FilterRail({
             className="w-full rounded border border-line bg-panel px-2 py-1.5 text-[13px] focus:outline-none"
           >
             <option value="">Qualquer semana</option>
-            {weeks.map((w) => (
+            {weeks.map((w, i) => (
               <option key={w} value={w}>
-                {fmtDate(w)}
+                W{i + 1} — abre {fmtDate(w)}
               </option>
             ))}
           </select>

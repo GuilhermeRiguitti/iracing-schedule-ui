@@ -8,6 +8,9 @@ import {
   currentWeekStart,
   filterSeries,
   fmtDateLong,
+  fmtDayShort,
+  seasonWeekStarts,
+  weekOf,
   type Filters,
 } from "@/lib/filters";
 import { FilterRail } from "@/components/FilterRail";
@@ -33,6 +36,7 @@ interface Row {
   tempC: number | null;
   cars: string[];
   weekNumber: number;
+  start: string;
 }
 
 export default function CalendarPage() {
@@ -45,7 +49,7 @@ export default function CalendarPage() {
   const [railOpen, setRailOpen] = useState(false);
 
   const seasonWeeks = useMemo(
-    () => data?.weekStarts.filter((w) => w >= "2026-09-15") ?? [],
+    () => (data ? seasonWeekStarts(data.series) : []),
     [data]
   );
 
@@ -60,7 +64,7 @@ export default function CalendarPage() {
     const matched = filterSeries(data.series, filters, favorites);
     const out: Row[] = [];
     for (const s of matched) {
-      const w = s.weeks.find((x) => x.start === week);
+      const w = weekOf(s, week);
       if (!w) continue;
       out.push({
         seriesId: s.id,
@@ -75,6 +79,7 @@ export default function CalendarPage() {
         tempC: w.tempC,
         cars: w.cars ?? s.cars,
         weekNumber: w.week,
+        start: w.start,
       });
     }
     return out;
@@ -197,6 +202,12 @@ export default function CalendarPage() {
                     <div className="text-[11px] text-ink-faint">
                       {CATEGORY_LABEL[r.category] ?? r.category}
                       {r.fixedSetup && " · fixed"}
+                      {r.start !== week && (
+                        <span className="text-flag">
+                          {" · "}
+                          {fmtDayShort(r.start)}
+                        </span>
+                      )}
                     </div>
                   </td>
                   <td className="py-2 pr-3">
