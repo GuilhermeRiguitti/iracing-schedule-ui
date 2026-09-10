@@ -14,7 +14,7 @@ interface Store {
   data: Schedule | null;
   error: string | null;
   byId: Map<string, Series>;
-  /** séries que a equipe pretende correr */
+  /** séries que o piloto marcou como favoritas */
   favorites: Set<string>;
   toggleFavorite: (id: string) => void;
   /** conteúdo que já foi comprado */

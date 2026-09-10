@@ -10,7 +10,7 @@ type Tab = "cars" | "tracks";
 type Owning = "all" | "missing" | "owned";
 
 interface Item extends ContentItem {
-  /** semanas em que a lista da equipe usa isso */
+  /** semanas em que as séries favoritas usam isso */
   usedByList: { series: Series; weeks: number[] }[];
 }
 
@@ -91,7 +91,7 @@ export default function ContentPage() {
         <h1 className="text-[18px] font-semibold">Conteúdo</h1>
         <p className="mt-1 max-w-[70ch] text-[13px] text-ink-dim">
           Marque o que você já comprou. O que sobrar sem marcação é a sua lista
-          de compras — e, com séries na lista da equipe, dá pra ver exatamente
+          de compras — e, com séries marcadas como favoritas, dá pra ver exatamente
           o que falta para rodar a temporada inteira nelas.
         </p>
       </header>
@@ -99,8 +99,8 @@ export default function ContentPage() {
       {favSeries.length > 0 && (
         <div className="mb-5 rounded border border-line bg-panel px-4 py-3">
           <p className="text-[13px]">
-            <span className="tnum font-mono">{favSeries.length}</span> séries na
-            lista da equipe usam{" "}
+            <span className="tnum font-mono">{favSeries.length}</span> séries
+            favoritas usam{" "}
             <span className="tnum font-mono">{needed.length}</span>{" "}
             {tab === "cars" ? "carros" : "pistas"} —{" "}
             <span className="tnum font-mono text-flag">{missing.length}</span>{" "}
@@ -166,14 +166,14 @@ export default function ContentPage() {
             onChange={(e) => setListOnly(e.target.checked)}
             className="h-3.5 w-3.5 accent-flag"
           />
-          Só o que a lista da equipe pede
+          Só o que as favoritas pedem
         </label>
       </div>
 
       {current.length === 0 ? (
         <p className="py-20 text-center text-[13px] text-ink-dim">
           {listOnly && favSeries.length === 0
-            ? "Marque séries com ★ na aba Séries para montar a lista da equipe."
+            ? "Marque séries com ★ na aba Séries para montar sua lista de favoritas."
             : "Nada aqui com esses filtros."}
         </p>
       ) : (

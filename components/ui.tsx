@@ -272,7 +272,7 @@ export function StarButton({
     <button
       type="button"
       onClick={onClick}
-      title={title ?? (on ? "Tirar da lista da equipe" : "Adicionar à lista da equipe")}
+      title={title ?? (on ? "Remover das favoritas" : "Adicionar às favoritas")}
       aria-pressed={on}
       className={`shrink-0 rounded p-1 text-[14px] leading-none transition-colors ${
         on ? "text-flag" : "text-ink-faint hover:text-ink-dim"

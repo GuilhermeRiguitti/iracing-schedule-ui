@@ -54,7 +54,7 @@ export function Nav() {
           )}
           {favorites.size > 0 && (
             <span className="tnum rounded-full border border-flag/40 px-2 py-0.5 font-mono text-[11px] text-flag">
-              {favorites.size} na lista
+              {favorites.size} favoritas
             </span>
           )}
         </div>

@@ -187,7 +187,7 @@ export function FilterRail({
         <Toggle
           checked={filters.favoritesOnly}
           onChange={(v) => patch({ favoritesOnly: v })}
-          label="Só a lista da equipe"
+          label="Só favoritas"
         />
         <Toggle
           checked={filters.multiclass}
