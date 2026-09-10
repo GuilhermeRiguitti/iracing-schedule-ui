@@ -3,7 +3,7 @@
 Interface para navegar o schedule oficial do iRacing: busca, filtros, paginação,
 calendário semanal e controle do que falta comprar de conteúdo.
 
-Next.js 15 + TypeScript + Tailwind v4. **Front-end puro** — `next build` gera
+Next.js 16 + TypeScript + Tailwind v3. **Front-end puro** — `next build` gera
 `./out`, que roda em qualquer hosting estático.
 
 ```bash
