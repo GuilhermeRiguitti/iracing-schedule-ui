@@ -23,6 +23,12 @@ condições, regras de incidente, split e settings de cada semana.
 **Calendário** (`/calendario`) — escolhe a semana e vê todas as séries que
 correm nela, com pista, duração e clima. A semana em andamento vem marcada.
 
+**Favoritas** (`/favoritas`) — só as séries marcadas com ★. Na visão *Semana*,
+escolhe a semana e vê pista, dia de largada, duração e clima de cada favorita
+(as que não correm naquela semana ficam separadas embaixo). Na visão
+*Temporada*, uma grade série × semana com a pista de cada rodada. Se você usa a
+aba Conteúdo, aponta o que ainda falta comprar para cada corrida.
+
 **Conteúdo** (`/conteudo`) — carros e pistas com quantas séries usam cada um.
 Marque o que já comprou; o resto é lista de compras. Com séries marcadas com ★,
 mostra o que falta para rodar a temporada inteira nelas e em quais semanas cada
